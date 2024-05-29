@@ -133,6 +133,29 @@ useEffect(() => {
         <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
     </svg>;
     }
+
+    function handleExerciseClick(index) {
+        setCurrentIndex(index);
+      }
+
+    function difficultyScore(exercise) {
+        try{
+            difficulty = parseFloat(exercise.difficultyScore);
+            if (difficulty < 2.0) {
+                return 'Lätt';
+            } else if (difficulty < 3.0) {
+                return 'Medium';
+            } else if (difficulty < 4.0) {
+                return 'Svår';
+            } else if (difficulty < 5.0) {
+                return 'Mardröm'
+            } else {
+                return 'N/A';
+            }
+        } catch (error) {
+            return 'N/A';
+        }
+    }
     
 
     return (
@@ -140,6 +163,18 @@ useEffect(() => {
         <div className="h-screen w-screen flex flex-col items-center justify-center p-24 bg-[#586FB5]">
             <h1 className="mb-10">Trigonometriska funktioner och identiteter</h1>
             <div className="w-10/12 h-5/6 bg-white flex flex-col items-center justify-center rounded-3xl">
+                <div className="button-container">
+                {exercises.map((exercise, index) => (
+                    <button
+                    key={index}
+                    onClick={() => handleExerciseClick(index)}
+                    style={{backgroundColor: difficultyScore(data[index]) === 'Lätt' ? '#66C61C' : difficultyScore(data[index]) === 'Medium' ? '#F79009' : difficultyScore(data[index]) === 'Svår' ? '#F7B4B4' : '#D7D3D0'}}
+                    className="exercise-button"
+                    >
+                    Exercise {index + 1} - {data[index]?.difficultyScore} - {difficultyScore(data[index])}
+                    </button>
+                ))}
+                </div>
                 <div className='w-preset text-pretty'>
                     <Latex>{data.questionText}</Latex>
                 </div>

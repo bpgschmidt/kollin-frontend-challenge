@@ -36,6 +36,7 @@ const fetchGraphQL = async (ID) => {
     }
 
     const data = await response.json();
+    console.log(data);
 
     if (data.errors) {
       throw new Error(`GraphQL errors: ${data.errors.map(error => error.message).join(', ')}`);
@@ -74,7 +75,6 @@ const fetchGraphQL = async (ID) => {
   } catch (error) {
     console.error('Error fetching GraphQL data:', error);
     return null; // Return null on error
-    throw error; // Rethrow the error after logging it
   }
 };
 
